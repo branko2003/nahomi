@@ -7,6 +7,7 @@ import authRoutes from "./routes/auth.routes.js";
 import taksRoutes from "./routes/tasks.routes.js";
 import tecnicosRoutes from "./routes/tecnico.routes.js";
 import clientesRoutes from "./routes/cliente.routes.js";
+import reparacionRoutes from "./routes/cliente.routes.js";
 
 import { FRONTEND_URL } from "./config.js";
 
@@ -28,6 +29,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api", taksRoutes);
 app.use("/api", tecnicosRoutes);
 app.use("/api", clientesRoutes);
+app.use("/api", reparacionRoutes);
 
 if (process.env.NODE_ENV === "production") {
   const path = await import("path");
