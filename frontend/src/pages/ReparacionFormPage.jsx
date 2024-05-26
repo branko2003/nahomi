@@ -16,8 +16,10 @@ export function ReparacionFormPage() {
   const { createReparacion, getReparacion, updateReparacion } = useReparaciones();
   const { clientes, getClientes } = useClientes();
   const { tecnicos, getTecnicos } = useTecnicos();
-// Dentro de tu componente
+
+
 const [accesorios, setAccesorios] = useState([{ id: Math.random(), value: "" }]);
+const [fotos, setFotos] = useState([]);
 
 
 
@@ -28,7 +30,26 @@ const [accesorios, setAccesorios] = useState([{ id: Math.random(), value: "" }])
   const onSubmit = async (data) => {
     try {
       const accesoriosDejados = accesorios.map(accesorio => accesorio.value.trim()).filter(value => value !== "");
-      if (params.id) {
+      const formData = new FormData();
+      fotos.forEach(file => {
+        formData.append('fotos', file);
+      });
+       // Añadir datos del formulario manualmente
+    formData.append('cliente', data.cliente);
+    formData.append('tecnico', data.tecnico);
+    formData.append('description_problema', data.description_problema);
+    formData.append('garantia', data.garantia);
+    formData.append('costo', data.costo);
+    formData.append('aceptacion_cambios', data.aceptacion_cambios);
+    formData.append('fecha_recepcion', dayjs.utc(data.fecha_recepcion).format());
+    formData.append('fecha_devolucion', dayjs.utc(data.fecha_devolucion).format());
+    formData.append('accesorios_dejados', JSON.stringify(accesoriosDejados)); // Asegúrate de que el servidor pueda parsear JSON
+    console.log(data);
+    // Para ver lo que contiene FormData
+for (let [key, value] of formData.entries()) {
+  console.log(key, value);
+}
+    if (params.id) {
         updateReparacion(params.id, {
           ...data,
           accesorios_dejados: accesoriosDejados,
@@ -36,14 +57,10 @@ const [accesorios, setAccesorios] = useState([{ id: Math.random(), value: "" }])
           fecha_devolucion: dayjs.utsc(data.fecha_devolucion).format(),
         });
       } else {
-        createReparacion({
-          ...data,
-          accesorios_dejados: accesoriosDejados,
-          fecha_recepcion: dayjs.utc(data.fecha_recepcion).format(),
-          fecha_devolucion: dayjs.utc(data.fecha_devolucion).format(),
-        });
+        createReparacion(formData
+        );
       }
-      navigate("/reparaciones");
+      //navigate("/reparaciones");
     } catch (error) {
       console.log(error);
       // window.location.href = "/";
@@ -88,6 +105,18 @@ const [accesorios, setAccesorios] = useState([{ id: Math.random(), value: "" }])
     setAccesorios(accesorios.filter(accesorio => accesorio.id !== id));
   };
 
+  const handleFileChange = (event) => {
+    event.preventDefault(); // Esto previene la propagación de eventos
+
+    // Agregar nuevos archivos a los ya existentes
+    setFotos([...fotos, ...Array.from(event.target.files)]);
+  };
+  
+  const removeFoto = (e,index) => {
+    e.preventDefault(); // Esto previene la propagación de eventos
+
+    setFotos(fotos.filter((_, idx) => idx !== index));
+  };
   
   return (
     <Card>
@@ -170,11 +199,18 @@ const [accesorios, setAccesorios] = useState([{ id: Math.random(), value: "" }])
         <Input type="date" name="fecha_devolucion" {...register("fecha_devolucion")} />
         <Label htmlFor="fotos">Fotos:</Label>
         <Input
-          type = "file"
-          name="fotos"
-          rows="3"
-          {...register("fotos")}
-        ></Input>
+            type="file"
+            name="fotos"
+            multiple
+            onChange={handleFileChange}
+          />
+
+          {fotos.map((file, index) => (
+            <div key={index}>
+              {file.name}
+              <Button type="button" onClick={(e) => removeFoto(e,index)}>Eliminar</Button>
+            </div>
+          ))}
         <Button>Guardar Reserva</Button>
       </form>
     </Card>

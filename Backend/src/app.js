@@ -7,7 +7,7 @@ import authRoutes from "./routes/auth.routes.js";
 import taksRoutes from "./routes/tasks.routes.js";
 import tecnicosRoutes from "./routes/tecnico.routes.js";
 import clientesRoutes from "./routes/cliente.routes.js";
-import reparacionRoutes from "./routes/cliente.routes.js";
+import reparacionRoutes from "./routes/reparacion.routes.js";
 
 import { FRONTEND_URL } from "./config.js";
 

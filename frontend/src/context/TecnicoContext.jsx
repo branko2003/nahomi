@@ -39,7 +39,6 @@ export function TecnicoProvider({ children }) {
   const createTecnico = async (tecnico) => {
     try {
       const res = await createTecnicoRequest(tecnico);
-      console.log(res.data);
     } catch (error) {
       console.log(error);
     }

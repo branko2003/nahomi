@@ -10,9 +10,7 @@ import {
 const ReparacionContext = createContext();
 
 export const useReparaciones = () => {
-  console.log(useContext(ReparacionContext))
   const context = useContext(ReparacionContext);
-  console.log(context)
   if (!context) throw new Error("useReparaciones must be used within a ReparacionProvider");
   return context;
 };
@@ -40,6 +38,7 @@ export function ReparacionProvider({ children }) {
 
   const createReparacion = async (reparacion) => {
     try {
+      console.log(reparacion);
       const res = await createReparacionRequest(reparacion);
       console.log(res.data);
     } catch (error) {

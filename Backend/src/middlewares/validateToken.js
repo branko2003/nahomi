@@ -5,6 +5,7 @@ import { TOKEN_SECRET } from "../config.js";
 
 export const authRequired = (req, res, next) => {  //next en ves de retornar respu continua 
   try {
+    
     const { token } = req.cookies;
 
     if (!token)

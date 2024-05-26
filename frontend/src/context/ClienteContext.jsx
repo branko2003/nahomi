@@ -21,7 +21,6 @@ export function ClienteProvider({ children }) {
   const getClientes = async () => { 
     try {
         const res = await getClientesRequest();
-        console.log(res.data)
         setclientes(res.data);
     } catch (error) {
         console.error(error);
