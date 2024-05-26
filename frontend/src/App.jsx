@@ -18,6 +18,8 @@ import { TecnicoPage} from "./pages/TecnicosPage";
 import { ReparacionProvider } from "./context/ReparacionContext";
 
 import { ReparacionFormPage } from "./pages/ReparacionFormPage";
+import { ClienteCalificacion } from "./pages/ClienteCalificacion";
+import { ReparacionesPage } from "./pages/ReparacionesPage";
 
 
 //import { ProfilePage} from "./pages/ProfilePage";
@@ -36,7 +38,10 @@ function App() {
               <Route path="/" element={<h1>HomePage</h1>} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/reparaciones" element={<ReparacionesPage />} />
               <Route path="/add-reparacion" element={<ReparacionFormPage />} />
+              <Route path="/calificar/:id" element={<ClienteCalificacion />} />
+
               <Route element={<ProtectedRoute />}>  
                 <Route path="/tasks" element={<TasksPage />} />
                 <Route path="/add-task" element={<TaskFormPage />} />
@@ -48,7 +53,7 @@ function App() {
                 <Route path="/tecnicos" element={<TecnicoPage />} />
                 <Route path="/add-tecnico" element={<TecnicoFormPage />} />
                 <Route path="/tecnicos/:id" element={<TecnicoFormPage />} />
-                
+
 
               </Route>
             </Routes>

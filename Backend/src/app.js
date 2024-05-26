@@ -30,6 +30,9 @@ app.use("/api", taksRoutes);
 app.use("/api", tecnicosRoutes);
 app.use("/api", clientesRoutes);
 app.use("/api", reparacionRoutes);
+app.use(express.static("public"));
+
+
 
 if (process.env.NODE_ENV === "production") {
   const path = await import("path");

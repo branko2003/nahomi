@@ -6,6 +6,8 @@ export const createReparacionRequest = async (reparacion) => axios.post("/repara
 
 export const updateReparacionRequest = async (id, reparacion) => axios.put(`/reparaciones/${id}`, reparacion);
 
-export const deletReparacionRequest = async (id) => axios.delete(`/reparaciones/${id}`);
+export const calificacionReparacionRequest = async (id, reparacion) => axios.patch(`/reparaciones/${id}`, reparacion);
+
+export const deleteReparacionRequest = async (id) => axios.delete(`/reparaciones/${id}`);
 
 export const getReparacionRequest = async (id) => axios.get(`/reparaciones/${id}`);

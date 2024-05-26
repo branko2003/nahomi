@@ -16,9 +16,12 @@ const storage = multer.diskStorage({
 
   export const getReparaciones = async (req, res) => {
     try {
-      const reparaciones = await Reparacion.find({ user : req.user.id }).populate("user");
+      const reparaciones = await Reparacion.find().populate('cliente', 'nombre')  // 'nombre' es un campo en el documento 'Cliente'
+      .populate('tecnico', 'nombre'); // 'nombre' es un campo en el documento 'Tecnico';
+      console.log(reparaciones);
       res.json(reparaciones);
     } catch (error) {
+      console.log(error);
       return res.status(500).json({ message: error.message });
     }
   };
@@ -46,6 +49,7 @@ const storage = multer.diskStorage({
         costo,
         fotos: fileNames,
         aceptacion_cambios,
+        calificacion: null,
       });
       await newReparacion.save();
       res.json(newReparacion);
@@ -85,6 +89,21 @@ const storage = multer.diskStorage({
         { cliente,tecnico, fecha_devolucion,fecha_recepcion,accesorios_dejados,description_problema,garantia,costo,fotos,aceptacion_cambios },
         { new: true }
       );
+      return res.json(reparacionUpdated);
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  };
+  
+  
+  export const calificacionReparacion = async (req, res) => {
+    try {
+        const reparacionUpdated = await Reparacion.findOneAndUpdate(
+        { _id: req.params.id },
+        { $set: req.body},
+        { new: true }
+      );
+      console.log(reparacionUpdated);
       return res.json(reparacionUpdated);
     } catch (error) {
       return res.status(500).json({ message: error.message });

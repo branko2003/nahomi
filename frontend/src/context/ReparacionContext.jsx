@@ -1,10 +1,11 @@
 import { createContext, useContext, useState } from "react";  
 import {
   createReparacionRequest,
-  deletReparacionRequest,
+  deleteReparacionRequest,
   getReparacionesRequest,
   getReparacionRequest,
   updateReparacionRequest,
+  calificacionReparacionRequest
 } from "../api/reparacion";
 
 const ReparacionContext = createContext();
@@ -63,6 +64,14 @@ export function ReparacionProvider({ children }) {
     }
   };
 
+  const calificarReparacion = async (id, reparacion) => {
+    try {
+      await calificacionReparacionRequest(id, reparacion);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+ 
   return (
     <ReparacionContext.Provider
       value={{
@@ -72,6 +81,7 @@ export function ReparacionProvider({ children }) {
         createReparacion,
         getReparacion,
         updateReparacion,
+        calificarReparacion
       }}
     >
       {children}

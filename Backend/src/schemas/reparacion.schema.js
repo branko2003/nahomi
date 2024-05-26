@@ -27,4 +27,6 @@ export const createReparacionSchema = z.object({
     } catch (e) {
       return [];  // Devuelve un array vacío si hay un error al parsear
     }}),
+    calificacion: z.string().optional().transform((num) => parseInt(num)),
+
   aceptacion_cambios: z.string().optional().transform((val) => val === 'true'),});

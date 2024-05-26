@@ -5,3 +5,5 @@ export { Input } from "./Input";
 export { Message } from "./Message";
 export { Label } from "./Label";
 import { Textarea } from "./Textarea";
+export { StarRating } from "./StarRating";
+export { ImageGallery } from "./ImageGallery";

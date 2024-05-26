@@ -44,6 +44,10 @@ const reparacionSchema = new mongoose.Schema(
         type: Boolean,
         required: true,
       },
+      calificacion: {
+        type: Number,
+        required: false,
+      },
     },
     {
       timestamps: true,
