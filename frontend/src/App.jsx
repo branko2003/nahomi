@@ -39,6 +39,7 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/reparaciones" element={<ReparacionesPage />} />
+              <Route path="/reparaciones/:id" element={<ReparacionFormPage />} />
               <Route path="/add-reparacion" element={<ReparacionFormPage />} />
               <Route path="/calificar/:id" element={<ClienteCalificacion />} />
 

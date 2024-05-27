@@ -83,10 +83,11 @@ const storage = multer.diskStorage({
   
   export const updateReparacion = async (req, res) => {
     try {
-        const {cliente,tecnico, fecha_devolucion,fecha_recepcion,accesorios_dejados,description_problema,garantia,costo,fotos,aceptacion_cambios} = req.body;
+      console.log(req.body)
+        const {cliente,tecnico, fecha_devolucion,fecha_recepcion,accesorios_dejados,description_problema,garantia,costo,aceptacion_cambios} = req.body;
         const reparacionUpdated = await Reparacion.findOneAndUpdate(
         { _id: req.params.id },
-        { cliente,tecnico, fecha_devolucion,fecha_recepcion,accesorios_dejados,description_problema,garantia,costo,fotos,aceptacion_cambios },
+        { cliente,tecnico, fecha_devolucion,fecha_recepcion,accesorios_dejados: JSON.parse(accesorios_dejados),description_problema,garantia,costo,aceptacion_cambios },
         { new: true }
       );
       return res.json(reparacionUpdated);
@@ -95,7 +96,32 @@ const storage = multer.diskStorage({
     }
   };
   
-  
+  export const updateReparacionFotos = async (req, res) => {
+    try {
+        const reparacionUpdated = await Reparacion.findOneAndUpdate(
+        { _id: req.params.id },
+        { $push: { fotos: req.body.fotos } },
+        { new: true }
+      );
+      return res.json(reparacionUpdated);
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  };
+
+  export const deleteReparacionFoto = async (req, res) => {
+    try {
+        const reparacionUpdated = await Reparacion.findOneAndUpdate(
+        { _id: req.params.id },
+        { $pull: { fotos: req.body.foto } },
+        { new: true }
+      );
+      return res.json(reparacionUpdated);
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  };
+
   export const calificacionReparacion = async (req, res) => {
     try {
         const reparacionUpdated = await Reparacion.findOneAndUpdate(

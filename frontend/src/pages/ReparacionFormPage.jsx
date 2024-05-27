@@ -50,12 +50,9 @@ for (let [key, value] of formData.entries()) {
   console.log(key, value);
 }
     if (params.id) {
-        updateReparacion(params.id, {
-          ...data,
-          accesorios_dejados: accesoriosDejados,
-          fecha_recepcion: dayjs.utc(data.fecha_recepcion).format(),
-          fecha_devolucion: dayjs.utsc(data.fecha_devolucion).format(),
-        });
+        updateReparacion(params.id, 
+          formData
+        );
       } else {
         createReparacion(formData
         );
@@ -72,10 +69,15 @@ for (let [key, value] of formData.entries()) {
       const accesoriosDejados = accesorios.map(accesorio => accesorio.value.trim()).filter(value => value !== "");
       if (params.id) {
         const reparacion = await getReparacion(params.id);
-        setValue("title", reparacion.title);
-        setValue("description", reparacion.description);
-        setValue("date", reparacion.date ? dayjs(task.date).utc().format("YYYY-MM-DD") : "");
-        setValue("completed", reparacion.completed);
+        setValue("description_problema", reparacion.description_problema);
+        setValue("garantia", reparacion.garantia);
+        setValue("fecha_reserva", reparacion.fecha_recepcion ? dayjs(reparacion.fecha_recepcion).utc().format("YYYY-MM-DD") : "");
+        setValue("fecha_devolucion", reparacion.fecha_devolucion ? dayjs(reparacion.fecha_devolucion).utc().format("YYYY-MM-DD") : "");
+        setAccesorios(reparacion.accesorios_dejados.map((accesorio, index) => ({ id: index, value: accesorio })));
+        setValue("costo", reparacion.costo);
+        setValue("cliente", reparacion.cliente);
+        setValue("tecnico", reparacion.tecnico);
+        setValue("aceptacion_cambios", reparacion.aceptacion_cambios);
       }
     };
     loadTask();
@@ -129,6 +131,7 @@ for (let [key, value] of formData.entries()) {
 
           {...register("cliente")}
         >
+           <option value="">Seleccione un cliente</option> {/* Opción vacía inicial */}
           {clientes.map(cliente => (
             <option key={cliente.id} value={cliente._id}>
               {cliente.nombre}
@@ -144,6 +147,7 @@ for (let [key, value] of formData.entries()) {
 
           {...register("tecnico")}
         >
+           <option value="">Seleccione un técnico</option> {/* Opción vacía inicial */}
           {tecnicos.map(tecnico => (
             <option key={tecnico.id} value={tecnico._id}>
               {tecnico.nombre}
@@ -197,12 +201,16 @@ for (let [key, value] of formData.entries()) {
         <Input type="date" name="fecha_recepcion" {...register("fecha_recepcion")} />
         <Label htmlFor="date">Fecha de devolucion:</Label>
         <Input type="date" name="fecha_devolucion" {...register("fecha_devolucion")} />
+        {
+  !params.id && ( // Solo se renderizarán si param.id no tiene valor
+    <>
         <Label htmlFor="fotos">Fotos:</Label>
         <Input
             type="file"
             name="fotos"
             multiple
             onChange={handleFileChange}
+            
           />
 
           {fotos.map((file, index) => (
@@ -211,6 +219,9 @@ for (let [key, value] of formData.entries()) {
               <Button type="button" onClick={(e) => removeFoto(e,index)}>Eliminar</Button>
             </div>
           ))}
+            </>
+  )
+}
         <Button>Guardar Reserva</Button>
       </form>
     </Card>
