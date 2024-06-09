@@ -30,10 +30,13 @@ const garantia_dispositivoSchema = new mongoose.Schema(
     tiempo_garantia: {
         type: String,
         require: false,
+        default: null  // Asegura que el valor por defecto sea null si no se proporciona
+
     },
     fecha_inicio_garantia: {
         type: Date,
-        default: Date.now,
+        default: null,  // Asegura que el valor por defecto sea null si no se proporciona
+        require: false,
     },
 },{
       timestamps: true,

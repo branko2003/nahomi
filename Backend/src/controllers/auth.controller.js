@@ -8,7 +8,7 @@ import { createAccessToken } from "../libs/jwt.js";
 export const register = async (req, res) => {
   try {
     //obtener lo que el cliente ingresa
-    const { username, email, password } = req.body;
+    const { username, email, password,rol } = req.body;
 
     const userFound = await User.findOne({ email });
 
@@ -25,6 +25,7 @@ export const register = async (req, res) => {
       username,
       email,
       password: passwordHash,
+      rol,
     });
 
     // saving the user in the database
@@ -84,6 +85,7 @@ export const login = async (req, res) => {
       id: userFound._id,
       username: userFound.username,
       email: userFound.email,
+      rol: userFound.rol,
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });

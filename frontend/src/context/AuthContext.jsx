@@ -29,6 +29,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (user) => {
     try {
+      user.rol = "cliente"
       const res = await registerRequest(user);
       if (res.status === 200) {
         setUser(res.data);

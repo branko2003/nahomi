@@ -7,13 +7,12 @@ export function ClienteCard({ cliente }) {
   return (
     <Card>
       <header className="flex justify-between">
-        <h1 className="text-2xl font-bold">{cliente.name}</h1>
+        <h1 className="text-2xl font-bold">{cliente.username}</h1>
         <div className="flex gap-x-2 items-center">
           <Button onClick={() => deleteCliente(cliente._id)}>Eliminar</Button>
           <ButtonLink to={`/clientes/${cliente._id}`}>Editar</ButtonLink>
         </div>
       </header>
-      <p className="text-slate-300">{cliente.password}</p>
       {/* format date */}
       <p>{cliente.email}
       </p>

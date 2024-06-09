@@ -75,7 +75,7 @@ for (let [key, value] of formData.entries()) {
         setValue("fecha_devolucion", reparacion.fecha_devolucion ? dayjs(reparacion.fecha_devolucion).utc().format("YYYY-MM-DD") : "");
         setAccesorios(reparacion.accesorios_dejados.map((accesorio, index) => ({ id: index, value: accesorio })));
         setValue("costo", reparacion.costo);
-        setValue("cliente", reparacion.cliente);
+        setValue("cliente", reparacion.user);
         setValue("tecnico", reparacion.tecnico);
         setValue("aceptacion_cambios", reparacion.aceptacion_cambios);
       }
@@ -134,7 +134,7 @@ for (let [key, value] of formData.entries()) {
            <option value="">Seleccione un cliente</option> {/* Opción vacía inicial */}
           {clientes.map(cliente => (
             <option key={cliente.id} value={cliente._id}>
-              {cliente.nombre}
+              {cliente.username}
             </option>
           ))}
         </select>
@@ -176,13 +176,7 @@ for (let [key, value] of formData.entries()) {
           rows="3"
           {...register("description_problema")}
         ></Textarea>
-        <Label htmlFor="garantia">Garantia:</Label>
-        <Input
-          type = "number"
-          name="garantia"
-          rows="3"
-          {...register("garantia")}
-        ></Input>
+        
         <Label htmlFor="costo">Costo:</Label>
         <Input
           type = "number"

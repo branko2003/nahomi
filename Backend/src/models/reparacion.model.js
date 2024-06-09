@@ -4,7 +4,7 @@ const reparacionSchema = new mongoose.Schema(
     {
       cliente: {
         type: mongoose.Types.ObjectId,
-        ref: "Cliente",
+        ref: "User",
         required: true
       },
       tecnico: {
@@ -26,10 +26,6 @@ const reparacionSchema = new mongoose.Schema(
       }],
       description_problema: {
         type: String,
-        required: true,
-      },
-      garantia: {
-        type: Number,
         required: true,
       },
       costo: {

@@ -1,28 +1,9 @@
-import Cliente from "../models/cliente.model.js";
+import User from "../models/user.model.js";
 
 export const getClientes = async (req, res) => {
     try {
-      const clientes = await Cliente.find();
+      const clientes = await User.find({ rol: 'cliente' });
       res.json(clientes);
-    } catch (error) {
-      return res.status(500).json({ message: error.message });
-    }
-  };
-  
-  export const createCliente= async (req, res) => {
-    try {
-      const { nombre,
-        email,
-        password } = req.body;
-        console.log(req.body);
-      const newCliente = new Cliente({
-        nombre,
-        email,
-        password
-      });
-      console.log(newCliente);
-      await newCliente.save();
-      res.json(newCliente);
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
@@ -30,7 +11,7 @@ export const getClientes = async (req, res) => {
 
   export const getCliente = async (req, res) => {
     try {
-      const cliente = await Cliente.findById(req.params.id);
+      const cliente = await User.findById(req.params.id);
       if (!cliente) return res.status(404).json({ message: "cliente no encontrado" });
       return res.json(cliente);
     } catch (error) {
@@ -40,7 +21,7 @@ export const getClientes = async (req, res) => {
   
   export const deleteCliente = async (req, res) => {
     try {
-      const deletedCliente = await Cliente.findByIdAndDelete(req.params.id);
+      const deletedCliente = await User.findByIdAndDelete(req.params.id);
       if (!deletedCliente)
         return res.status(404).json({ message: "Cliente no encontrado" });
   
@@ -55,7 +36,7 @@ export const getClientes = async (req, res) => {
       const { nombre,
         email,
         password } = req.body;
-      const clienteUpdated = await Cliente.findOneAndUpdate(
+      const clienteUpdated = await User.findOneAndUpdate(
         { _id: req.params.id },
         { nombre,
             email,

@@ -18,11 +18,23 @@ export function Navbar() {
               Bienvenido {user.username}
             </li>
             <li>
-              <ButtonLink to="/add-task">Añadir Reserva</ButtonLink>
-              <ButtonLink to="/add-cliente">Añadir cliente</ButtonLink>
-              <ButtonLink to="/clientes">ver clientes</ButtonLink>
-              <ButtonLink to="/add-tecnico">Añadir tecnicos</ButtonLink>
-              <ButtonLink to="/tecnicos">ver tecnicos</ButtonLink>
+              <ButtonLink to="/add-task">Añadir tareas</ButtonLink>
+              <ButtonLink to="/reparaciones">ver reparacion</ButtonLink>
+              {user.rol === 'administrador' && (
+                <>
+                  <ButtonLink to="/add-task">Añadir Reserva</ButtonLink>
+                  <ButtonLink to="/add-cliente">Añadir cliente</ButtonLink>
+                  <ButtonLink to="/add-tecnico">Añadir técnicos</ButtonLink>
+                  <ButtonLink to="/add-garantia">Añadir garantia</ButtonLink>
+                  <ButtonLink to="/add-reparaciones">Añadir reparaciones</ButtonLink>
+
+                  <ButtonLink to="/clientes">ver clientes</ButtonLink>
+                  <ButtonLink to="/tecnicos">ver tecnicos</ButtonLink>
+                  <ButtonLink to="/garantias">ver garantia</ButtonLink>
+                  <ButtonLink to="/reparaciones">ver reparaciones</ButtonLink>
+
+                </>
+              )}
             </li>
             <li>
               <Link to="/" onClick={() => logout()}>

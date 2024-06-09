@@ -18,7 +18,6 @@ export const createReparacionSchema = z.object({
     }
   }),  
   description_problema: z.string().optional(),
-  garantia: z.string().optional().transform((num) => parseInt(num)),
   costo: z.string().optional().transform((num) => parseInt(num)),
   //fotos: z.array(z.string()).optional(),
   fotos: z.string().optional().transform((str) => {
@@ -29,4 +28,5 @@ export const createReparacionSchema = z.object({
     }}),
     calificacion: z.string().optional().transform((num) => parseInt(num)),
 
-  aceptacion_cambios: z.string().optional().transform((val) => val === 'true'),});
+  aceptacion_cambios: z.string().optional().transform((val) => val === 'true'),
+  });

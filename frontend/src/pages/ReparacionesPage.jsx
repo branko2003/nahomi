@@ -1,14 +1,18 @@
 import { useEffect } from "react";
 import { useReparaciones } from "../context/ReparacionContext";
+import { useAuth } from "../context/AuthContext";
 import { ReparacionCard } from "../components/reparaciones/ReparacionCard";
 import { ImFileEmpty } from "react-icons/im";
 
 export function ReparacionesPage() {
-  const { reparaciones, getReparaciones } = useReparaciones();
-
+  const { reparaciones, getReparaciones, getReparacionesclientes} = useReparaciones();
+  const { user } = useAuth();
   useEffect(() => {
-    getReparaciones();
-    console.log(reparaciones);
+    if(user.rol === 'cliente'){
+      getReparacionesclientes(user.id);
+    }else{
+      getReparaciones();
+    }
   }, []);
 
   return (

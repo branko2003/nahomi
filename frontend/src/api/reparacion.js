@@ -2,6 +2,8 @@ import axios from "./axios";
 
 export const getReparacionesRequest = async () => axios.get("/reparaciones");
 
+export const getReparacionesclientesRequest = async (id) => axios.get(`/reparaciones/cliente/${id}`);
+
 export const createReparacionRequest = async (reparacion) => axios.post("/reparaciones", reparacion);
 
 export const updateReparacionRequest = async (id, reparacion) => axios.put(`/reparaciones/${id}`, reparacion);

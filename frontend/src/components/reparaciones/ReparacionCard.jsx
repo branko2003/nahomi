@@ -1,13 +1,16 @@
 import { useReparaciones } from "../../context/ReparacionContext";
 import { Button, ButtonLink, Card,Label,ImageGallery } from "../ui";
+import { useAuth } from "../../context/AuthContext";
 
 export function ReparacionCard({ reparacion }) {
+  const { user } = useAuth();
+
   const { deleteReparacion} = useReparaciones();
 
   return (
     <Card>
       <header className="flex justify-between">
-        <h1 className="text-2xl font-bold">{reparacion.cliente.nombre}</h1>
+        <h1 className="text-2xl font-bold">{reparacion.cliente.username}</h1>
         
       </header>
       <Label htmlFor="title">Tecnico</Label>
@@ -36,10 +39,16 @@ export function ReparacionCard({ reparacion }) {
           {/* format date dayjs(task.date).utc().format('DD/MM/YY')*/ }
       </p>
       <div className="flex gap-x-2 items-center">
+        
+      {user.rol === 'administrador' && (
+        <>
           <Button onClick={() => deleteReparacion(reparacion._id)}>Eliminar</Button>
           <ButtonLink to={`/reparaciones/${reparacion._id}`}>Editar</ButtonLink>
-          <ButtonLink to={`/calificar/${reparacion._id}`}>Calificar</ButtonLink>
-
+        </>
+      )}
+          {user.rol === 'cliente' && !reparacion.calificacion && (
+            <ButtonLink to={`/calificar/${reparacion._id}`}>Calificar</ButtonLink>
+          )}
         </div>
     </Card>
   );

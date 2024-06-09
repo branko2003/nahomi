@@ -15,15 +15,15 @@ export function ClienteFormPage() {
 
   const onSubmit = async (data) => {
     try {
+      
       if (params.id) {
         updateCliente(params.id, {
           ...data,
-          date: dayjs.utc(data.date).format(),
         });
       } else {
+        data.rol = "cliente";
         createCliente({
           ...data,
-          date: dayjs.utc(data.date).format(),
         });
       }
        navigate("/clientes");
@@ -37,9 +37,8 @@ export function ClienteFormPage() {
     async function loadCliente() {
       if (params.id) {
         const cliente = await getCliente(params.id);
-        setValue("nombre", cliente.nombre);
+        setValue("username", cliente.username);
         setValue("email", cliente.email);
-        setValue("password",cliente.password);
       }
     };
     loadCliente();
@@ -48,12 +47,12 @@ export function ClienteFormPage() {
   return (
     <Card>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Label htmlFor="nombre">nombre:</Label>
+        <Label htmlFor="username">usuario:</Label>
         <Input
           type="text"
-          name="nombre"
-          placeholder="Ingrese el nombre"
-          {...register("nombre")}
+          name="username"
+          placeholder="Ingrese el usuario"
+          {...register("username")}
           autoFocus
         />
         {errors.title && (

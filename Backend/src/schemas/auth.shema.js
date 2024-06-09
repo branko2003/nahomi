@@ -18,6 +18,9 @@ export const registerSchema = z.object({
     .min(6, {
       message: "Contraseña de al menos 6 caracteres",
     }),
+    rol: z.string({
+      required_error: "rol no valido",
+    }),
 });
 
 export const loginSchema = z.object({

@@ -19,6 +19,11 @@ export const createGarantia_dispositivoSchema = z.object({
     garantia: z.boolean({
         required_error: "Requerido",
     }),//.transform((val) => val === 'true'),
-    tiempo_garantia: z.string().optional(),
-    fecha_inicio_garantia: z.string().datetime().optional(),
+    tiempo_garantia: z.string().nullable().optional(),
+    //fecha_inicio_garantia: z.string().datetime().nullable().optional(),
+    fecha_inicio_garantia: z.string().nullable().optional().refine((data) => {
+        return data === null || data === '' || dayjs(data).isValid();
+    }, {
+        message: "Invalid datetime",
+    }),
 });

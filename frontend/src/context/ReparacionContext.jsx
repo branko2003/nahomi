@@ -5,7 +5,8 @@ import {
   getReparacionesRequest,
   getReparacionRequest,
   updateReparacionRequest,
-  calificacionReparacionRequest
+  calificacionReparacionRequest,
+  getReparacionesclientesRequest
 } from "../api/reparacion";
 
 const ReparacionContext = createContext();
@@ -22,6 +23,14 @@ export function ReparacionProvider({ children }) {
   const getReparaciones = async () => { 
     try {
         const res = await getReparacionesRequest();
+        setReparaciones(res.data);
+    } catch (error) {
+        console.error(error);
+    }  
+  };
+  const getReparacionesclientes = async (id) => { 
+    try {
+        const res = await getReparacionesclientesRequest(id);
         setReparaciones(res.data);
     } catch (error) {
         console.error(error);
@@ -81,7 +90,8 @@ export function ReparacionProvider({ children }) {
         createReparacion,
         getReparacion,
         updateReparacion,
-        calificarReparacion
+        calificarReparacion,
+        getReparacionesclientes
       }}
     >
       {children}

@@ -11,19 +11,22 @@ export function GarantiaFormPage() {
   const { createGarantia, getGarantia, updateGarantia } = useGarantias();
   const navigate = useNavigate();
   const params = useParams();
-  const {register, setValue, handleSubmit, formState: { errors },} = useForm();
+  const {register,watch, setValue, handleSubmit, formState: { errors },} = useForm();
+  const garantiaChecked = watch("garantia"); // Observa el valor del checkbox de garantía
 
   const onSubmit = async (data) => {
     try {
+      let fecha = data.fecha_inicio_garantia ? dayjs.utc(data.fecha_inicio_garantia) : null;
+       let fechaFormateada = fecha && fecha.isValid() ? fecha.format() : '';
       if (params.id) {
         updateGarantia(params.id, {
           ...data,
-          fecha_inicio_garantia: dayjs.utc(data.fecha_inicio_garantia).format(),
+          fecha_inicio_garantia: fechaFormateada//dayjs.utc(data.fecha_inicio_garantia).format(),
         });
       } else {
         createGarantia({
           ...data,
-          fecha_inicio_garantia: dayjs.utc(data.fecha_inicio_garantia).format(),
+          fecha_inicio_garantia: fechaFormateada//dayjs.utc(data.fecha_inicio_garantia).format(),
         });
       }
        navigate("/garantias");
@@ -105,11 +108,14 @@ export function GarantiaFormPage() {
           {...register("garantia")}
           autoFocus
         />
+        {garantiaChecked && (
+                <>
         <Label htmlFor="password">tiempo de garantia:</Label>
         <Input
           type="text"
           name="tiempo_garantia"
           placeholder="Ingrese el tiempo de garantia"
+
           {...register("tiempo_garantia")}
           autoFocus
         />
@@ -118,9 +124,13 @@ export function GarantiaFormPage() {
           type="date"
           name="fecha_inicio_garantia"
           placeholder="Ingrese la fecha de inicio de garantia"
+
           {...register("fecha_inicio_garantia")}
           autoFocus
         />
+         </>
+            )}
+
         <Button>Guardar garantia</Button>
       </form>
     </Card>
