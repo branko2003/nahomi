@@ -38,7 +38,7 @@ const reparacionSchema = new mongoose.Schema(
       },
       fotos: [{
         type: String,
-        required: true,
+        required: false,
       }],
       aceptacion_cambios: {
         type: Boolean,

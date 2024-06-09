@@ -21,6 +21,9 @@ import { ReparacionFormPage } from "./pages/ReparacionFormPage";
 import { ClienteCalificacion } from "./pages/ClienteCalificacion";
 import { ReparacionesPage } from "./pages/ReparacionesPage";
 
+import { GarantiaFormPage } from "./pages/GarantiaFormPage";
+import { GarantiasPage } from "./pages/GarantiasPage";
+import { GarantiaProvider } from "./context/GarantiaContext";
 
 //import { ProfilePage} from "./pages/ProfilePage";
 
@@ -31,6 +34,7 @@ function App() {
         <ClienteProvider>
         <TecnicoProvider>
           <ReparacionProvider>
+            <GarantiaProvider>
         <BrowserRouter>
           <main className="container content-container mx-auto px-10 md:px-0">
             <Navbar />
@@ -42,6 +46,10 @@ function App() {
               <Route path="/reparaciones/:id" element={<ReparacionFormPage />} />
               <Route path="/add-reparacion" element={<ReparacionFormPage />} />
               <Route path="/calificar/:id" element={<ClienteCalificacion />} />
+
+              <Route path="/garantias/:id" element={<GarantiaFormPage />} />
+              <Route path="/garantias" element={<GarantiasPage />} />
+              <Route path="/add-garantia" element={<GarantiaFormPage />} />
 
               <Route element={<ProtectedRoute />}>  
                 <Route path="/tasks" element={<TasksPage />} />
@@ -61,6 +69,7 @@ function App() {
           </main>
           
         </BrowserRouter>
+        </GarantiaProvider>
         </ReparacionProvider>
         </TecnicoProvider>
         </ClienteProvider>

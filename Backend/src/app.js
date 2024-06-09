@@ -8,6 +8,7 @@ import taksRoutes from "./routes/tasks.routes.js";
 import tecnicosRoutes from "./routes/tecnico.routes.js";
 import clientesRoutes from "./routes/cliente.routes.js";
 import reparacionRoutes from "./routes/reparacion.routes.js";
+import garantiaRoutes from "./routes/garantia_dispositivo.routes.js";
 
 import { FRONTEND_URL } from "./config.js";
 
@@ -30,6 +31,8 @@ app.use("/api", taksRoutes);
 app.use("/api", tecnicosRoutes);
 app.use("/api", clientesRoutes);
 app.use("/api", reparacionRoutes);
+app.use("/api", garantiaRoutes);
+
 app.use(express.static("public"));
 
 
