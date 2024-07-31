@@ -32,6 +32,7 @@ export function Sidebar() {
                   <li className="flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 mt-2">
                     <ButtonLink to="/reparaciones" className={`${!open && "hidden"} origin-left duration-200`}>Ver Reparación</ButtonLink>
                   </li>
+                  
                 </>
               )}
               {user.rol === 'Administrador' && (

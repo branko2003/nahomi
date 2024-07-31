@@ -1,6 +1,8 @@
 import { useReparaciones } from "../../context/ReparacionContext";
 import { Button, ButtonLink, Card,Label,ImageGallery } from "../ui";
 import { useAuth } from "../../context/AuthContext";
+import { PDFDownloadLink } from '@react-pdf/renderer'
+import Pdf from '../../pages/Pdf.jsx';
 
 export function ReparacionCard({ reparacion }) {
   const { user } = useAuth();
@@ -38,7 +40,7 @@ export function ReparacionCard({ reparacion }) {
           {/* format date dayjs(task.date).utc().format('DD/MM/YY')*/ }
       </p>
       <div className="flex gap-x-2 items-center">
-        
+
       {user.rol === 'Administrador' && (
         <>
           <Button onClick={() => deleteReparacion(reparacion._id)}>Eliminar</Button>
@@ -46,9 +48,23 @@ export function ReparacionCard({ reparacion }) {
         </>
       )}
           {user.rol === 'Cliente' && !reparacion.calificacion && (
+            <>
             <ButtonLink to={`/calificar/${reparacion._id}`}>Calificar</ButtonLink>
+            
+            </>
           )}
+          
         </div>
+        <PDFDownloadLink document={<Pdf reparacion={reparacion} />} fileName='reparacion_boleta.pdf' >
+                {
+                  ({ loading, url, error, blob }) => loading ? <Button >
+                    Cargando Documento..
+                  </Button> :
+                    <Button className="reporte">
+                      Descargar Reportes
+                    </Button>
+                }
+              </PDFDownloadLink>
     </Card>
   );
 }
