@@ -150,7 +150,7 @@ for (let [key, value] of formData.entries()) {
            <option value="">Seleccione un técnico</option> {/* Opción vacía inicial */}
           {tecnicos.map(tecnico => (
             <option key={tecnico.id} value={tecnico._id}>
-              {tecnico.nombre}
+              {tecnico.username}
             </option>
           ))}
         </select>

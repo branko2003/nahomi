@@ -21,7 +21,7 @@ export function ClienteFormPage() {
           ...data,
         });
       } else {
-        data.rol = "cliente";
+        data.rol = "Cliente";
         createCliente({
           ...data,
         });
@@ -39,6 +39,8 @@ export function ClienteFormPage() {
         const cliente = await getCliente(params.id);
         setValue("username", cliente.username);
         setValue("email", cliente.email);
+        setValue("telefono", cliente.telefono);
+
       }
     };
     loadCliente();
@@ -60,6 +62,14 @@ export function ClienteFormPage() {
           <p className="text-red-500 text-xs italic">Ingrese el nombre</p>
         )}
 
+<Label htmlFor="email">TELEFONO:</Label>
+        <Input
+          type="number"
+          name="telefono"
+          placeholder="Ingrese el telefono"
+          {...register("telefono")}
+          autoFocus
+        />
         <Label htmlFor="email">email:</Label>
         <Input
           type="email"

@@ -22,6 +22,7 @@ export function TecnicoFormPage() {
           date: dayjs.utc(data.date).format(),
         });
       } else {
+        data.rol = "Tecnico";
         createTecnico({
           ...data,
           date: dayjs.utc(data.date).format(),
@@ -38,11 +39,9 @@ export function TecnicoFormPage() {
     async function loadTecnico() {
       if (params.id) {
         const tecnico = await getTecnico(params.id);
-        setValue("nombre", tecnico.nombre);
-        setValue("apellido", tecnico.apellido);
+        setValue("username", tecnico.username);
         setValue("email", tecnico.email);
-        setValue("password", tecnico.password);
-        setValue("especialidad", tecnico.especialidad);
+        setValue("telefono", tecnico.telefono);
 
       }
     };
@@ -50,54 +49,46 @@ export function TecnicoFormPage() {
   }, []);
 
   return (
-    <Card>
+<Card>
       <form onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="text-2xl font-bold text-center">Registro Técnico</h1>
-        <Label htmlFor="nombre">Nombre del tecncio</Label>
+      <h1 className="text-2xl font-bold text-center">Registro Tecnico</h1>
+        <Label htmlFor="username">usuario:</Label>
         <Input
           type="text"
-          name="nombre"
-          placeholder="Ingrese el nombre del cliente"
-          {...register("nombre")}
+          name="username"
+          placeholder="Ingrese el usuario"
+          {...register("username")}
           autoFocus
         />
         {errors.title && (
-          <p className="text-red-500 text-xs italic">Ingrese el nombre del tecnico</p>
+          <p className="text-red-500 text-xs italic">Ingrese el nombre</p>
         )}
-
-        <Label htmlFor="apellido">Apelldio del tecnico:</Label>
+<Label htmlFor="email">TELEFONO:</Label>
         <Input
-          type="apellido"
-          name="apellido"
-          placeholder="Ingrese el apellido del tecnico"
-          {...register("apellido")}
+          type="number"
+          name="telefono"
+          placeholder="Ingrese el telefono"
+          {...register("telefono")}
           autoFocus
         />
-        <Label htmlFor="email">email del tecnico:</Label>
+        <Label htmlFor="email">email:</Label>
         <Input
           type="email"
           name="email"
-          placeholder="Ingrese el apellido del tecnico"
+          placeholder="Ingrese el email"
           {...register("email")}
           autoFocus
         />
-        <Label htmlFor="password">password del tecnico:</Label>
+        <Label htmlFor="password">password:</Label>
         <Input
           type="password"
           name="password"
-          placeholder="Ingrese el password del tecnico"
+          placeholder="Ingrese el password"
           {...register("password")}
           autoFocus
         />
-        <Label htmlFor="especialidad">especialidad del tecnico:</Label>
-        <Input
-          type="especialidad"
-          name="especialidad"
-          placeholder="Ingrese la especialidad del tecnico"
-          {...register("especialidad")}
-          autoFocus
-        />
-        <Button>Guardar tecnico</Button>
+        
+        <Button>Guardar cliente</Button>
       </form>
     </Card>
   );

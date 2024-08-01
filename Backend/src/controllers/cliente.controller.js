@@ -35,12 +35,13 @@ export const getClientes = async (req, res) => {
     try {
       const { nombre,
         email,
-        password } = req.body;
+        password,telefono } = req.body;
       const clienteUpdated = await User.findOneAndUpdate(
         { _id: req.params.id },
         { nombre,
             email,
-            password },
+            password,
+          telefono },
         { new: true }
       );
       return res.json(clienteUpdated);

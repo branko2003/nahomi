@@ -1,32 +1,9 @@
-import Tecnico from "../models/tecnico.model.js";
+import User from "../models/user.model.js";
 
 export const getTecnicos = async (req, res) => {
     try {
-      const tecnicos = await Tecnico.find();
+      const tecnicos = await User.find({ rol: 'Tecnico' });
       res.json(tecnicos);
-    } catch (error) {
-      return res.status(500).json({ message: error.message });
-    }
-  };
-  
-  export const createTecnico = async (req, res) => {
-    try {
-      const { nombre,
-        apellido,
-        email,
-        password,
-        especialidad } = req.body;
-        console.log(req.body);
-
-      const newTecnico = new Tecnico({
-        nombre,
-        apellido,
-        email,
-        password,
-        especialidad,
-      });
-      await newTecnico.save();
-      res.json(newTecnico);
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
@@ -34,8 +11,8 @@ export const getTecnicos = async (req, res) => {
 
   export const getTecnico = async (req, res) => {
     try {
-      const tecnico = await Tecnico.findById(req.params.id);
-      if (!tecnico) return res.status(404).json({ message: "tecnico no encontrado" });
+      const tecnico = await User.findById(req.params.id);
+      if (!tecnico) return res.status(404).json({ message: "Tecnico no encontrado" });
       return res.json(tecnico);
     } catch (error) {
       return res.status(500).json({ message: error.message });
@@ -44,9 +21,9 @@ export const getTecnicos = async (req, res) => {
   
   export const deleteTecnico = async (req, res) => {
     try {
-      const deletedTecnico = await Tecnico.findByIdAndDelete(req.params.id);
+      const deletedTecnico = await User.findByIdAndDelete(req.params.id);
       if (!deletedTecnico)
-        return res.status(404).json({ message: "tecnico no encontrado" });
+        return res.status(404).json({ message: "Tecnico no encontrado" });
   
       return res.sendStatus(204);
     } catch (error) {
@@ -57,17 +34,15 @@ export const getTecnicos = async (req, res) => {
   export const updateTecnico = async (req, res) => {
     try {
       const { nombre,
-        apellido,
         email,
         password,
-        especialidad } = req.body;
-      const tecnicoUpdated = await Tecnico.findOneAndUpdate(
+      telefono } = req.body;
+      const tecnicoUpdated = await User.findOneAndUpdate(
         { _id: req.params.id },
         { nombre,
-            apellido,
             email,
             password,
-            especialidad },
+          telefono },
         { new: true }
       );
       return res.json(tecnicoUpdated);

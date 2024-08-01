@@ -15,7 +15,7 @@ export function ReparacionCard({ reparacion }) {
         <h1 className="text-2xl font-bold">{reparacion.cliente.username}</h1>
       </header>
       <Label htmlFor="title">Tecnico</Label>
-      <p className="text-slate-300">{reparacion.tecnico.nombre}</p>
+      <p className="text-slate-300">{reparacion.tecnico.username}</p>
       <Label htmlFor="title">Descripcion del problema</Label>
       <p className="text-slate-300">{reparacion.description_problema}</p>
       <Label htmlFor="title">Fecha de devolucion</Label>

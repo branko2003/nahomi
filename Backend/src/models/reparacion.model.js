@@ -9,7 +9,7 @@ const reparacionSchema = new mongoose.Schema(
       },
       tecnico: {
         type: mongoose.Types.ObjectId,
-        ref: "Tecnico",
+        ref: "User",
         required: true
       },
       fecha_recepcion: {

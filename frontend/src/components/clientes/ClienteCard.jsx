@@ -15,6 +15,8 @@ export function ClienteCard({ cliente }) {
       </header>
       {/* format date */}
       <p>{cliente.email}
+      <p className="text-slate-300">{cliente.telefono}</p>
+
       </p>
       <p>
           {/* format date dayjs(task.date).utc().format('DD/MM/YY')*/ }
