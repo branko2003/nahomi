@@ -26,6 +26,7 @@ import { ReparacionesPage } from "./pages/ReparacionesPage";
 import { GarantiaFormPage } from "./pages/GarantiaFormPage";
 import { GarantiasPage } from "./pages/GarantiasPage";
 import { GarantiaProvider } from "./context/GarantiaContext";
+import {MyCalendar} from "./pages/MyCalendar";
 
 //import { ProfilePage} from "./pages/ProfilePage";
 
@@ -43,7 +44,7 @@ function App() {
             <Navbar />
             <Routes>
               <Route path="/home" element={< HomePage/>} /> 
-            
+            <Route path="/calendario" element={< MyCalendar/>}/>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/reparaciones" element={<ReparacionesPage />} />

@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
   export const getReparaciones = async (req, res) => {
     try {
       const reparaciones = await Reparacion.find().populate('cliente', 'username')  // 'nombre' es un campo en el documento 'Cliente'
-      .populate('tecnico', 'nombre'); // 'nombre' es un campo en el documento 'Tecnico';
+      .populate('tecnico', 'username'); // 'nombre' es un campo en el documento 'Tecnico';
       console.log(reparaciones);
       res.json(reparaciones);
     } catch (error) {

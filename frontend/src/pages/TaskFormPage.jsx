@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -6,13 +6,27 @@ import { Button, Card, Input, Label } from "../components/ui";
 import { useTasks } from "../context/TaskContext";
 import { Textarea } from "../components/ui/Textarea";
 import { useForm } from "react-hook-form";
+import { MyCalendar } from "./MyCalendar";
+import Modal from 'react-modal';
+
 dayjs.extend(utc);
 
 export function TaskFormPage() {
   const { createTask, getTask, updateTask } = useTasks();
   const navigate = useNavigate();
   const params = useParams();
-  const {register, setValue, handleSubmit, formState: { errors },} = useForm();
+  const { register, setValue, handleSubmit, formState: { errors }, } = useForm();
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
 
   const onSubmit = async (data) => {
     try {
@@ -27,8 +41,8 @@ export function TaskFormPage() {
           date: dayjs.utc(data.date).format(),
         });
       }
-      console.log (createTask(), updateTask());
-       navigate("/tasks");
+      console.log(createTask(), updateTask());
+      navigate("/tasks");
     } catch (error) {
       console.log(error);
       // window.location.href = "/";
@@ -42,7 +56,7 @@ export function TaskFormPage() {
         setValue("title", task.title);
         setValue("tipo", task.tipo);
         setValue("description", task.description);
-        setValue("date",task.date ? dayjs(task.date).utc().format("YYYY-MM-DD") : "");
+        setValue("date", task.date ? dayjs(task.date).utc().format("YYYY-MM-DD") : "");
         setValue("completed", task.completed);
       }
     };
@@ -85,6 +99,26 @@ export function TaskFormPage() {
         <Input type="date" name="date" {...register("date")} />
         <Button >Guardar Reserva</Button>
       </form>
+      <Button onClick={openModal}>Ver Fechas disponibles</Button>
+
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Fechas disponibles"
+        style={{
+          content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)'
+          }
+        }}
+      >
+        <Button onClick={closeModal}>Cerrar</Button>
+        <MyCalendar />
+      </Modal>
     </Card>
   );
 }
