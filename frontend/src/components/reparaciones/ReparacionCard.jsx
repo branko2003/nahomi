@@ -6,14 +6,19 @@ import Pdf from '../../pages/Pdf.jsx';
 
 export function ReparacionCard({ reparacion }) {
   const { user } = useAuth();
-  const { deleteReparacion } = useReparaciones();
+  const { deleteReparacion, calificarReparacion } = useReparaciones();
 
+
+  const handleUpdate = () => {
+
+    calificarReparacion(reparacion._id, { aceptacion_cambios: true });
+  };
   return (
     <Card>
       <header className="flex justify-between">
         <h1 className="text-2xl font-bold">Reparación</h1>
       </header>
-      
+
       <div className="space-y-4">
         <div>
           <Label htmlFor="cliente">Cliente</Label>
@@ -59,7 +64,13 @@ export function ReparacionCard({ reparacion }) {
           <Label htmlFor="calificacion">Calificación</Label>
           <p className="text-slate-300">{reparacion.calificacion}</p>
         </div>
-
+        <div>
+          <Label htmlFor="calificacion">Aceptacion de cambios</Label>
+          {reparacion.aceptacion_cambios ? (
+            <p className="text-slate-300">El cliente aceptó los cambios</p>
+          ) : (
+            <p className="text-slate-300">El cliente no aceptó los cambios</p>
+          )}        </div>
         <div>
           <Label htmlFor="fotos">Fotos</Label>
           {reparacion.fotos && reparacion.fotos.length > 0 ? (
@@ -85,7 +96,12 @@ export function ReparacionCard({ reparacion }) {
           </>
         )}
         {user.rol === 'Cliente' && !reparacion.calificacion && (
-          <ButtonLink to={`/calificar/${reparacion._id}`}>Calificar</ButtonLink>
+          <>
+            <ButtonLink to={`/calificar/${reparacion._id}`}>Calificar</ButtonLink>
+            {!reparacion.aceptacion_cambios && (
+              <Button onClick={handleUpdate}>Aceptar cambios</Button>
+            )}
+          </>
         )}
       </div>
     </Card>

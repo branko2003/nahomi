@@ -9,6 +9,7 @@ export const getTasks = async (req, res) => {
     const tasks = await Task.find(query).populate("cliente");
     res.json(tasks);
   } catch (error) {
+    console.log(error)
     return res.status(500).json({ message: error.message });
   }
 };

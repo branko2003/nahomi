@@ -17,6 +17,7 @@ export function TasksPage() {
   const filteredTasks = user.role === 'Cliente'
     ? tasks.filter(task => task.cliente._id === user._id)
     : tasks;
+    console.log("estos son los tasks",filteredTasks)
 
   return (
     <>

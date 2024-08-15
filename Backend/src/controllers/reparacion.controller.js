@@ -108,6 +108,7 @@ const storage = multer.diskStorage({
       }
   
       const { cliente, tecnico, fecha_devolucion, fecha_recepcion, accesorios_dejados, description_problema, garantia, costo, aceptacion_cambios } = req.body;
+      
       const reparacionUpdated = await Reparacion.findByIdAndUpdate(
         req.params.id,
         {

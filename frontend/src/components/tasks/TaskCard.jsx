@@ -30,6 +30,7 @@ export function TaskCard({ task }) {
     ? dayjs.utc(task.date).local().format('dddd, MMMM D, YYYY') // Ajusta el formato según tu necesidad
     : '';
 
+    console.log("taskcard llga esto",task)
   return (
     <li className="border-b border-gray-200 py-4">
       <header className="flex justify-between">
