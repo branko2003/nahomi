@@ -36,8 +36,6 @@ app.use("/api", garantiaRoutes);
 
 app.use(express.static("public"));
 
-
-
 if (process.env.NODE_ENV === "production") {
   const path = await import("path");
   app.use(express.static("client/dist"));

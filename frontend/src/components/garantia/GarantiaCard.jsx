@@ -1,36 +1,36 @@
 import { useGarantias } from "../../context/GarantiaContext";
-import { Button, ButtonLink, Card,Label,ImageGallery } from "../ui";
+import { Link } from "react-router-dom";
+import { FaEdit, FaTrash } from "react-icons/fa"; // Íconos para editar y eliminar
 
 export function GarantiaCard({ garantia }) {
-  const { deleteGarantia} = useGarantias();
+  const { deleteGarantia } = useGarantias();
 
   return (
-    <Card>
-      <header className="flex justify-between">
-        <h1 className="text-2xl font-bold">{garantia.Nro_factura}</h1>
-      </header>
-      <Label htmlFor="title">Equipo comprado</Label>
-      <p className="text-slate-300">{garantia.equipo_comprado}</p>
-      <Label htmlFor="title">nombre del cliente</Label>
-      <p className="text-slate-300">{garantia.nombre_cliente}</p>
-      <Label htmlFor="title">Apellido del cliente</Label>
-      <p className="text-slate-300">{garantia.apellido_cliente}</p>
-      <Label htmlFor="title">nit del cliente</Label>
-      <p className="text-slate-300">{garantia.nit_cliente}</p>
-      <Label htmlFor="title">Garantia</Label>
-      <p className="text-slate-300">{garantia.garantia}</p>
-      <Label htmlFor="title">tiempo de Garantia</Label>
-      <p className="text-slate-300">{garantia.tiempo_garantia}</p>
-      <Label htmlFor="title">fecha de inicio de garantia</Label>
-      <p className="text-slate-300">{garantia.fecha_inicio_garantia}</p>
-      <p>
-          {/* format date dayjs(task.date).utc().format('DD/MM/YY')*/ }
-      </p>
-      <div className="flex gap-x-2 items-center">
-          <Button onClick={() => deleteGarantia(garantia._id)}>Eliminar</Button>
-          <ButtonLink to={`/garantias/${garantia._id}`}>Editar</ButtonLink>
-
-        </div>
-    </Card>
+    <tr key={garantia._id}>
+      <td className="px-2 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{garantia.Nro_factura}</td>
+      <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">{garantia.equipo_comprado}</td>
+      <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">{garantia.nombre_cliente}</td>
+      <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">{garantia.apellido_cliente}</td>
+      <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">{garantia.nit_cliente}</td>
+      <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">{garantia.garantia}</td>
+      <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">{garantia.tiempo_garantia}</td>
+      <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">{garantia.fecha_inicio_garantia}</td>
+      <td className="px-2 py-4 whitespace-nowrap text-sm font-medium text-center flex justify-center gap-4">
+        <button
+          onClick={() => deleteGarantia(garantia._id)}
+          className="text-red-500 hover:text-red-700 text-lg"
+          aria-label="Eliminar"
+        >
+          <FaTrash />
+        </button>
+        <Link
+          to={`/garantias/${garantia._id}`}
+          className="text-green-500 hover:text-green-700 text-lg"
+          aria-label="Editar"
+        >
+          <FaEdit />
+        </Link>
+      </td>
+    </tr>
   );
 }

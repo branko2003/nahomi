@@ -2,7 +2,6 @@ import Reparacion from "../models/reparacion.model.js";
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
-
 const storage = multer.diskStorage({
   filename: (req, file, cb) => {
       cb(null, file.originalname);
@@ -12,9 +11,7 @@ const storage = multer.diskStorage({
   },
   
   });
-
   export const upload = multer({ storage: storage }).array('fotos', 10);  // Acepta hasta 10 archivos
-
   export const getReparaciones = async (req, res) => {
     try {
       const reparaciones = await Reparacion.find()
@@ -28,7 +25,6 @@ const storage = multer.diskStorage({
     }
   };
   
-
   export const getReparacionesCliente = async (req, res) => {
     try {
       console.log(req.params.id);
@@ -42,7 +38,6 @@ const storage = multer.diskStorage({
       return res.status(500).json({ message: error.message });
     }
   };
-
   export const createReparacion = async (req, res) => {
     try {
       
@@ -76,7 +71,6 @@ const storage = multer.diskStorage({
       return res.status(500).json({ message: error.message });
     }
   };
-
   export const getReparacion = async (req, res) => {
     try {
       const reparacion = await Reparacion.findById(req.params.id);
@@ -106,8 +100,9 @@ const storage = multer.diskStorage({
         fileNames = req.files.map(file => file.originalname);
         console.log(fileNames);
       }
-  
+
       const { cliente, tecnico, fecha_devolucion, fecha_recepcion, accesorios_dejados, description_problema, garantia, costo, aceptacion_cambios } = req.body;
+
       const reparacionUpdated = await Reparacion.findByIdAndUpdate(
         req.params.id,
         {
@@ -145,7 +140,6 @@ const storage = multer.diskStorage({
       return res.status(500).json({ message: error.message });
     }
   };
-
   export const deleteReparacionFoto = async (req, res) => {
     try {
       const { foto } = req.body; // Nombre del archivo a eliminar
@@ -169,7 +163,6 @@ const storage = multer.diskStorage({
       return res.status(500).json({ message: error.message });
     }
   };
-
   export const calificacionReparacion = async (req, res) => {
     try {
         const reparacionUpdated = await Reparacion.findOneAndUpdate(
@@ -183,4 +176,3 @@ const storage = multer.diskStorage({
       return res.status(500).json({ message: error.message });
     }
   };
-  

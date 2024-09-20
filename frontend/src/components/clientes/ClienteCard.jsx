@@ -1,26 +1,31 @@
 import { useClientes } from "../../context/ClienteContext";
-import { Button, ButtonLink, Card } from "../ui";
+import { Link } from "react-router-dom";
+import { FaEdit, FaTrash } from "react-icons/fa"; // Importar íconos de edición y eliminación
 
 export function ClienteCard({ cliente }) {
   const { deleteCliente } = useClientes();
 
   return (
-    <Card>
-      <header className="flex justify-between">
-        <h1 className="text-2xl font-bold">{cliente.username}</h1>
-        <div className="flex gap-x-2 items-center">
-          <Button onClick={() => deleteCliente(cliente._id)}>Eliminar</Button>
-          <ButtonLink to={`/clientes/${cliente._id}`}>Editar</ButtonLink>
-        </div>
-      </header>
-      {/* format date */}
-      <p>{cliente.email}
-      <p className="text-slate-300">{cliente.telefono}</p>
-
-      </p>
-      <p>
-          {/* format date dayjs(task.date).utc().format('DD/MM/YY')*/ }
-      </p>
-    </Card>
+    <tr key={cliente._id}>
+      <td className="px-2 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{cliente.username}</td>
+      <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">{cliente.email}</td>
+      <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">{cliente.telefono}</td>
+      <td className="px-2 py-4 whitespace-nowrap text-sm font-medium text-center flex justify-center gap-4">
+        <button
+          onClick={() => deleteCliente(cliente._id)}
+          className="text-red-500 hover:text-red-700 text-lg"
+          aria-label="Eliminar"
+        >
+          <FaTrash />
+        </button>
+        <Link
+          to={`/clientes/${cliente._id}`}
+          className="text-green-500 hover:text-green-700 text-lg"
+          aria-label="Editar"
+        >
+          <FaEdit />
+        </Link>
+      </td>
+    </tr>
   );
 }

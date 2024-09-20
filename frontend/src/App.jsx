@@ -32,10 +32,12 @@ import { GarantiaFormPage } from "./pages/GarantiaFormPage";
 import { GarantiasPage } from "./pages/GarantiasPage";
 import { GarantiaProvider } from "./context/GarantiaContext";
 
-//import { ProfilePage} from "./pages/ProfilePage";
+// Nuevas importaciones para Camunda
+import ProcessViewerPage from "./pages/ProcessViewerPage";
+import StartProcessPage from "./pages/StartProcessPage";
+
 
 function App() {
-
   return (
     <AuthProvider>
       <TaskProvider>
@@ -51,33 +53,37 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
 
-              
+              {/* Rutas protegidas */}
               <Route element={<ProtectedRoute />}>
-              <Route path="/administradores" element={<AdministradorPage />} />
-              <Route path="/clientes" element={<ClientehomePage />} />
-              <Route path="/tecnicos" element={<TecnicohomePage />} />
-              <Route path="/profile" element={<h1>Profile</h1>} />  
+                <Route path="/administradores" element={<AdministradorPage />} />
+                <Route path="/clientes" element={<ClientehomePage />} />
+                <Route path="/tecnicos" element={<TecnicohomePage />} />
+                <Route path="/profile" element={<h1>Profile</h1>} />  
 
-              <Route path="/cliente" element={<ClientesPage />} />
-              <Route path="/add-cliente" element={<ClienteFormPage />} />
-              <Route path="/clientes/:id" element={<ClienteFormPage />} />
+                <Route path="/cliente" element={<ClientesPage />} />
+                <Route path="/add-cliente" element={<ClienteFormPage />} />
+                <Route path="/clientes/:id" element={<ClienteFormPage />} />
 
-              <Route path="/tecnico" element={<TecnicoPage />} />
-              <Route path="/add-tecnico" element={<TecnicoFormPage />} />
-              <Route path="/tecnicos/:id" element={<TecnicoFormPage />} />
+                <Route path="/tecnico" element={<TecnicoPage />} />
+                <Route path="/add-tecnico" element={<TecnicoFormPage />} />
+                <Route path="/tecnicos/:id" element={<TecnicoFormPage />} />
 
-              <Route path="/tasks" element={<TasksPage />} />
-              <Route path="/add-task" element={<TaskFormPage />} />
-              <Route path="/tasks/:id" element={<TaskFormPage />} />
+                <Route path="/tasks" element={<TasksPage />} />
+                <Route path="/add-task" element={<TaskFormPage />} />
+                <Route path="/tasks/:id" element={<TaskFormPage />} />
 
-              <Route path="/reparaciones" element={<ReparacionesPage />} />
-              <Route path="/reparaciones/:id" element={<ReparacionFormPage />} />
-              <Route path="/add-reparacion" element={<ReparacionFormPage />} />
-              <Route path="/calificar/:id" element={<ClienteCalificacion />} />
-              
-              <Route path="/garantias/:id" element={<GarantiaFormPage />} />
-              <Route path="/garantias" element={<GarantiasPage />} />
-              <Route path="/add-garantia" element={<GarantiaFormPage />} />
+                <Route path="/reparaciones" element={<ReparacionesPage />} />
+                <Route path="/reparaciones/:id" element={<ReparacionFormPage />} />
+                <Route path="/add-reparacion" element={<ReparacionFormPage />} />
+                <Route path="/calificar/:id" element={<ClienteCalificacion />} />
+                
+                <Route path="/garantias/:id" element={<GarantiaFormPage />} />
+                <Route path="/garantias" element={<GarantiasPage />} />
+                <Route path="/add-garantia" element={<GarantiaFormPage />} />
+
+                {/* Nuevas rutas para Camunda */}
+                <Route path="/process-viewer" element={<ProcessViewerPage processDefinitionKey="my-process-key" />} />
+                <Route path="/start-process" element={<StartProcessPage />} />
               </Route>
            
             </Routes>

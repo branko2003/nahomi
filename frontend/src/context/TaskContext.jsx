@@ -8,6 +8,7 @@ import {
   updateTaskStatusRequest
 } from "../api/tasks";
 
+import axios from 'axios';
 
 const TaskContext = createContext();
 
@@ -26,7 +27,7 @@ export function TaskProvider({ children }) {
         setTasks(res.data);
         console.log (res.data);
     } catch (error) {
-        console.error(error);
+        console.error(error.message);
     }  
   };
 

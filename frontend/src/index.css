@@ -12,6 +12,6 @@ body {
   font-family: "Poppins", sans-serif;
   font-weight: 500;
 }
-/*.content-container {
+.content-container {
   height: calc(100vh - theme("spacing.1"));
-}*/
+}

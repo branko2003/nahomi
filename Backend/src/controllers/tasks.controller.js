@@ -2,11 +2,12 @@ import Task from "../models/task.model.js";
 
 export const getTasks = async (req, res) => {
   try {
-    const query = req.user.role === 'Cliente'
+    const query = req.user.rol === 'Cliente'
       ? { cliente: req.user.id }
       : {}; // Dejar vacío para técnicos y administradores
-
+      console.log(query);
     const tasks = await Task.find(query).populate("cliente");
+    console.log(tasks);
     res.json(tasks);
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -88,3 +89,5 @@ export const createTask = async (req, res) => {
       return res.status(500).json({ message: error.message });
     }
   };
+
+  
