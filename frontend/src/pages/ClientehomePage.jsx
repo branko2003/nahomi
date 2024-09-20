@@ -1,0 +1,24 @@
+import { useEffect } from "react";
+import { useClientes } from "../context/ClienteContext";
+import { ClienteCard } from "../components/clientes/ClienteCard";
+import { ImFileEmpty } from "react-icons/im";
+
+export function ClientehomePage() {
+
+  return (
+    <>
+      
+        <div className="flex justify-center items-center p-10">
+          <div>
+            <ImFileEmpty className="text-6xl text-gray-400 m-auto my-2" />
+            <h1 className="font-bold text-xl">
+              Vista de Cliente
+            </h1>
+          </div>
+        </div>
+      
+
+
+    </>
+  );
+}
