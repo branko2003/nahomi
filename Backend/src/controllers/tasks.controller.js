@@ -16,13 +16,14 @@ export const getTasks = async (req, res) => {
   
 export const createTask = async (req, res) => {
   try {
-    const { title, tipo, description, date } = req.body;
+    const { title, tipo, description, date, garantia } = req.body;
     const newTask = new Task({
       title,
       tipo,
       description,
       date,
       cliente: req.user.id,
+      garantia
     });
     await newTask.save();
     res.json(newTask);
@@ -55,10 +56,10 @@ export const createTask = async (req, res) => {
   
   export const updateTask = async (req, res) => {
     try {
-      const { title, tipo, description, date } = req.body;
+      const { title, tipo, description, date,garantia } = req.body;
       const taskUpdated = await Task.findOneAndUpdate(
         { _id: req.params.id },
-        { title, tipo, description, date },
+        { title, tipo, description, date,garantia },
         { new: true }
       );
       return res.json(taskUpdated);
@@ -90,4 +91,11 @@ export const createTask = async (req, res) => {
     }
   };
 
-  
+  export const getTaskPorCliente = async (req, res) => {
+    try {
+      const tareas = await Task.find({ cliente: req.user.id });
+      res.json(tareas);
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  };

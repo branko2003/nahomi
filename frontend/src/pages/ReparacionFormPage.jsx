@@ -10,17 +10,56 @@ import "../styles/styles.css";
 dayjs.extend(utc);
 import { useClientes } from "../context/ClienteContext";
 import { useTecnicos } from "../context/TecnicoContext";
+import { useTasks } from "../context/TaskContext";
+import { getTasksPorClienteRequest } from "../api/tasks";
 
 export function ReparacionFormPage() {
   const { createReparacion, getReparacion, updateReparacion, deleteReparacionFoto } = useReparaciones();
   const { clientes, getClientes } = useClientes();
   const { tecnicos, getTecnicos } = useTecnicos();
+  const { tasks, getTasksPorCliente } = useTasks();
+  const [reserva, setReserva] = useState([]);
+
+  const [clienteId, setClienteId] = useState(''); // Estado para el cliente seleccionado
+  const [taskId, setTaskId] = useState(''); // Estado para la tarea seleccionada
+  const [fechaReserva, setFechaReserva] = useState(''); // Estado para la fecha de reserva
+  const [descripcionProblema, setDescripcionProblema] = useState('');
+
   const [accesorios, setAccesorios] = useState([{ id: Math.random(), value: "" }]);
   const [fotos, setFotos] = useState([]);
   const [existingFotos, setExistingFotos] = useState([]);
   const navigate = useNavigate();
   const params = useParams();
   const { register, setValue, handleSubmit, formState: { errors }, } = useForm();
+
+  useEffect(() => {
+    getClientes(); // Cargar clientes al montar el componente
+    getTecnicos(); // Cargar técnicos al montar el componente
+  },[]);
+
+  const handleClienteChange = (e) => {
+    const selectedId = e.target.value; // Actualizar cliente seleccionado
+    const reservas = tasks.filter(task => task.cliente._id === selectedId); 
+    setReserva(reservas);
+    setFechaReserva(''); // Resetear la fecha al cambiar de cliente
+    setTaskId('')
+    setDescripcionProblema(''); // Resetear la descripción al cambiar de cliente
+    setClienteId(selectedId);
+  };
+
+  
+  const handleTaskChange = (e) => {
+    const selectedTaskId = e.target.value;
+    const selectedTask = tasks.find(task => task._id === selectedTaskId);
+    if (selectedTask) {
+      setTaskId(selectedTaskId);
+      setFechaReserva(new Date(selectedTask.date).toISOString().split('T')[0]); // Asignar fecha de reserva
+      setDescripcionProblema(selectedTask.description); // Asignar descripción
+    } else {
+      setFechaReserva(''); // Resetear si no se selecciona una tarea válida
+      setDescripcionProblema('');
+    }
+  };
 
   const onSubmit = async (data) => {
     try {
@@ -30,18 +69,18 @@ export function ReparacionFormPage() {
       fotos.forEach(file => {
         formData.append('fotos', file);
       });
-      
+      console.log (data);
       existingFotos.forEach(foto => {
         formData.append('existingFotos', foto); // Esto es para mantener fotos ya existentes
       })      
        // Añadir datos del formulario manualmente
-      formData.append('cliente', data.cliente);
+      formData.append('cliente', clienteId);
       formData.append('tecnico', data.tecnico);
-      formData.append('description_problema', data.description_problema);
+      formData.append('description_problema', descripcionProblema);
       formData.append('garantia', data.garantia);
       formData.append('costo', data.costo);
       formData.append('aceptacion_cambios', data.aceptacion_cambios);
-      formData.append('fecha_recepcion', dayjs.utc(data.fecha_recepcion).format());
+      formData.append('fecha_recepcion', dayjs.utc(fechaReserva).format());
       formData.append('fecha_devolucion', dayjs.utc(data.fecha_devolucion).format());
       formData.append('accesorios_dejados', JSON.stringify(accesoriosDejados)); // Asegúrate de que el servidor pueda parsear JSON
 
@@ -137,12 +176,30 @@ export function ReparacionFormPage() {
           <select
             name="cliente"
             style={{ color: 'black' }}
-            {...register("cliente")}
+            value={clienteId}
+            onChange={handleClienteChange}
           >
             <option value="">Seleccione un cliente</option>
             {clientes.map(cliente => (
               <option key={cliente.id} value={cliente._id}>
                 {cliente.username}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <Label htmlFor="task">Seleccione una tarea:</Label>
+          <select
+            name="task"
+            style={{ color: 'black' }}
+            value={taskId}
+            onChange={handleTaskChange}
+          >
+            <option value="">Seleccione una tarea</option>
+            {reserva.map(task => (
+              <option key={task.id} value={task._id}>
+                {task.title}
               </option>
             ))}
           </select>
@@ -185,10 +242,7 @@ export function ReparacionFormPage() {
         <div>
           <Label htmlFor="description_problema">Descripción del problema:</Label>
           <Textarea
-            name="description_problema"
-            id="description_problema"
-            rows="3"
-            {...register("description_problema")}
+            value={descripcionProblema} readOnly
           ></Textarea>
         </div>
         
@@ -212,12 +266,18 @@ export function ReparacionFormPage() {
 
         <div>
           <Label htmlFor="fecha_recepcion">Fecha de Reserva:</Label>
-          <Input type="date" name="fecha_recepcion" {...register("fecha_recepcion")} />
+          <Input type="date" value={fechaReserva} readOnly />
         </div>
 
         <div>
           <Label htmlFor="fecha_devolucion">Fecha de Devolución:</Label>
-          <Input type="date" name="fecha_devolucion" {...register("fecha_devolucion")} />
+          <Input
+            type="date"
+            name="fecha_devolucion"
+            {...register("fecha_devolucion")}
+            min={dayjs().format("YYYY-MM-DD")} 
+          />
+        
         </div>
 
         <div>

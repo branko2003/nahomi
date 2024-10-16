@@ -12,3 +12,5 @@ export const deleteTaskRequest = async (id) => axios.delete(`/tasks/${id}`);
 export const getTaskRequest = async (id) => axios.get(`/tasks/${id}`);
 
 export const updateTaskStatusRequest = (id, status) => axios.put(`/tasks/${id}/status`, { status });
+
+export const getTasksPorClienteRequest = async () => axios.get("/tasks/por-cliente");

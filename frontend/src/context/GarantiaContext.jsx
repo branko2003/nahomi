@@ -5,6 +5,7 @@ import {
   getGarantiasRequest,
   getGarantiaRequest,
   updateGarantiaRequest,
+  importGarantiasCSVRequest,
 } from "../api/garantia";
 
 const GarantiaContext = createContext();
@@ -62,6 +63,14 @@ export function GarantiaProvider({ children }) {
     }
   };
 
+  const importGarantias = async (file) => {
+    try {
+      const res = await importGarantiasCSVRequest(file);
+      return res.data;  // Retornamos los resultados de la importación
+    } catch (error) {
+      console.error("Error al importar CSV", error);
+    }
+  };
  
   return (
     <GarantiaContext.Provider
@@ -72,6 +81,7 @@ export function GarantiaProvider({ children }) {
         createGarantia,
         getGarantia,
         updateGarantia,
+        importGarantias,
       }}
     >
       {children}

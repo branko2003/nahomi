@@ -9,3 +9,7 @@ export const updateClienteRequest = async (id, cliente) => axios.put(`/clientes/
 export const deletClienteRequest = async (id) => axios.delete(`/clientes/${id}`);
 
 export const getClienteRequest = async (id) => axios.get(`/clientes/${id}`);
+
+export const searchClienteRequest = async (id) => axios.get(`/buscar/cliente/`, id);
+
+ 

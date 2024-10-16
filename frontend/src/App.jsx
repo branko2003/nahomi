@@ -1,7 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 import { Navbar } from "./components/Navbar";
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute } from "./ProtectedRoute";
+import axios from "axios";
 
 import HomePage from "./pages/HomePage";
 import RegisterPage from "./pages/RegisterPage";
@@ -32,12 +34,26 @@ import { GarantiaFormPage } from "./pages/GarantiaFormPage";
 import { GarantiasPage } from "./pages/GarantiasPage";
 import { GarantiaProvider } from "./context/GarantiaContext";
 
-// Nuevas importaciones para Camunda
-import ProcessViewerPage from "./pages/ProcessViewerPage";
-import StartProcessPage from "./pages/StartProcessPage";
-
-
 function App() {
+  useEffect(() => {
+    const startCamundaProcess = async () => {
+      try {
+        // Hacemos la solicitud al backend para iniciar el proceso
+        const response = await axios.post('http://localhost:4000/api/camunda/start-process', {
+          processKey: 'Process_0frnl0t', // Reemplaza con tu clave de proceso
+          variables: {
+            someVariable: { value: 'example', type: 'String' }
+          }
+        });
+
+        console.log('Proceso iniciado:', response.data);
+      } catch (error) {
+        console.error('Error al iniciar el proceso:', error);
+      }
+    };
+    startCamundaProcess();
+  }, []);
+
   return (
     <AuthProvider>
       <TaskProvider>
@@ -81,9 +97,6 @@ function App() {
                 <Route path="/garantias" element={<GarantiasPage />} />
                 <Route path="/add-garantia" element={<GarantiaFormPage />} />
 
-                {/* Nuevas rutas para Camunda */}
-                <Route path="/process-viewer" element={<ProcessViewerPage processDefinitionKey="my-process-key" />} />
-                <Route path="/start-process" element={<StartProcessPage />} />
               </Route>
            
             </Routes>

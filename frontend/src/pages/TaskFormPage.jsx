@@ -30,24 +30,27 @@ export function TaskFormPage() {
     setModalIsOpen(false);
   };
 
-  const onSubmit = async (data) => {
-    try {
-      if (params.id) {
-        updateTask(params.id, {
-          ...data,
-          date: dayjs.utc(data.date).format(),
-        });
-      } else {
-        createTask({
-          ...data,
-          date: dayjs.utc(data.date).format(),
-        });
-      }
-      navigate("/tasks");
-    } catch (error) {
-      console.log(error);
+const onSubmit = async (data) => {
+  try {
+    // Formatea la fecha como UTC solo al enviar al backend
+    const formattedDate = dayjs(data.date).utc().format(); // Asegúrate de usar solo 'dayjs(data.date)'
+
+    if (params.id) {
+      updateTask(params.id, {
+        ...data,
+        date: formattedDate,
+      });
+    } else {
+      createTask({
+        ...data,
+        date: formattedDate,
+      });
     }
-  };
+    navigate("/tasks");
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   useEffect(() => {
     async function loadTask() {
@@ -57,6 +60,9 @@ export function TaskFormPage() {
         setValue("tipo", task.tipo);
         setValue("description", task.description);
         setValue("date", task.date ? dayjs(task.date).utc().format("YYYY-MM-DD") : "");
+
+        setValue("garantia", task.garantia);
+
         // Solo el cliente puede ver y modificar el estado si se carga en la edición
         if (user.rol === 'Cliente') {
           setValue("completed", task.completed);
@@ -91,7 +97,7 @@ export function TaskFormPage() {
               ))}
             </select>
           </div>
-        ) : null}  
+        ) : null}
 
         <Label htmlFor="title">Marca del dispositivo:</Label>
         <Input
@@ -120,8 +126,25 @@ export function TaskFormPage() {
           {...register("description")}
         />
         <Label htmlFor="date">Fecha de Reserva:</Label>
-        <Input type="date" name="date" {...register("date")} />
-
+        <Input
+          type="date"
+          name="date"
+          {...register("date")}
+          min={dayjs().format("YYYY-MM-DD")} 
+        />
+        
+        <Label htmlFor="garantia">¿Su equipo cuenta con una garantía? </Label>
+        <select
+          name="garantia"
+          {...register("garantia")}
+          autoFocus
+          className="garantia-select"
+          style={{ marginTop: '10px',borderRadius: '5px'}}
+        >
+          <option value="">Seleccione una opción</option>
+          <option value="true">Sí</option>
+          <option value="false">No</option>
+        </select>
         <div className="flex justify-center">
           <div className="flex space-x-4">
             <Button>Guardar Reserva</Button>
@@ -129,12 +152,12 @@ export function TaskFormPage() {
         </div>
       </form>
 
-        <div className="flex justify-center">
-          <div className="flex space-x-4">            
-            <Button onClick={openModal}>Ver Fechas Ocupadas</Button>
-          </div>
+      <div className="flex justify-center">
+        <div className="flex space-x-4">
+          <Button onClick={openModal}>Ver Fechas Ocupadas</Button>
         </div>
-      
+      </div>
+
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}

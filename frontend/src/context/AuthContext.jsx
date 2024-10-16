@@ -59,6 +59,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const signinCamunda = async (user) => {
+    try {
+      const res = await login_Camunda_Request(user);
+      console.log ("Nuevo usuario ",res);
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'El token es invalido',
+        text: error.response.data.message,
+      });
+    }
+  };
+
   const logout = () => {
     Cookies.remove("token");
     setUser(null);
@@ -96,6 +109,7 @@ export const AuthProvider = ({ children }) => {
         user,
         signup,
         signin,
+        signinCamunda,
         logout,
         isAuthenticated,
         errors,

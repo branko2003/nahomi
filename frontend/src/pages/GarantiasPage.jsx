@@ -6,9 +6,10 @@ import { FaSearch } from "react-icons/fa";
 const GARANTIAS_POR_PAGINA = 6;
 
 export function GarantiasPage() {
-  const { garantias = [], getGarantias } = useGarantias();
+  const { garantias = [], getGarantias, importGarantias } = useGarantias();  // Importar la función del contexto
   const [searchTerm, setSearchTerm] = useState("");
   const [paginaActual, setPaginaActual] = useState(1);
+  const [file, setFile] = useState(null);
   
   useEffect(() => {
     console.log("Fetching garantias...");
@@ -18,6 +19,28 @@ export function GarantiasPage() {
   const handleSearch = (e) => {
     setSearchTerm(e.target.value.toLowerCase());
     setPaginaActual(1);
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleUpload = async (e) => {
+    e.preventDefault();
+
+    if (!file) {
+      alert("Por favor, selecciona un archivo CSV");
+      return;
+    }
+
+    try {
+      await importGarantias(file);  // Usar la función del contexto
+      alert("Archivo importado exitosamente");
+      getGarantias();  // Recargar las garantías después de la importación
+    } catch (error) {
+      console.error("Error al importar CSV", error);
+      alert("Error al importar el archivo CSV");
+    }
   };
 
   const filteredGarantias = garantias.filter(garantia =>
@@ -47,18 +70,18 @@ export function GarantiasPage() {
       <h1 className="font-bold text-2xl text-center -mr-64">
         Garantías Registradas
       </h1>
-
-      <div className="relative w-96 max-w-4xl -ml-40 mt-20">
-        <div className="absolute mt-3 ml-2">
-          <FaSearch className="text-gray-500" />
-        </div>
-        <input
-          type="text"
-          placeholder="Buscar por nombre, apellido o equipo..."
-          value={searchTerm}
-          onChange={handleSearch}
-          className="w-full pl-10 px-6 py-2 border border-gray-300 text-sm rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
-        />
+      {/* Formulario para cargar archivo CSV */}
+      <div className="w-full max-w-4xl mx-auto mt-6 mb-6">
+        <h2 className="text-lg font-semibold">Importar Garantías desde un archivo CSV</h2>
+        <form onSubmit={handleUpload} className="flex flex-col items-center">
+          <input type="file" accept=".csv" onChange={handleFileChange} className="mb-4" />
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >
+            Importar CSV
+          </button>
+        </form>
       </div>
 
       <div className="w-full max-w-4xl mx-auto mt-10 mb-48 mr-3.5">
@@ -94,7 +117,7 @@ export function GarantiasPage() {
             <div className="mt-4 flex justify-center">
               <nav className="flex items-center space-x-2">
                 <button
-                  onClick={() => setPaginaActual(pagina => Math.max(pagina - 1, 1))}
+                  onClick={() => setPaginaActual((pagina) => Math.max(pagina - 1, 1))}
                   disabled={paginaActual === 1}
                   className="px-4 py-2 border border-gray-300 rounded-md text-sm bg-gray-200 hover:bg-gray-300"
                 >
@@ -104,13 +127,15 @@ export function GarantiasPage() {
                   <button
                     key={i + 1}
                     onClick={() => setPaginaActual(i + 1)}
-                    className={`px-4 py-2 border border-gray-300 rounded-md text-sm ${paginaActual === i + 1 ? 'bg-yellow-500 text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
+                    className={`px-4 py-2 border border-gray-300 rounded-md text-sm ${
+                      paginaActual === i + 1 ? "bg-yellow-500 text-white" : "bg-gray-200 hover:bg-gray-300"
+                    }`}
                   >
                     {i + 1}
                   </button>
                 ))}
                 <button
-                  onClick={() => setPaginaActual(pagina => Math.min(pagina + 1, totalPaginas))}
+                  onClick={() => setPaginaActual((pagina) => Math.min(pagina + 1, totalPaginas))}
                   disabled={paginaActual === totalPaginas}
                   className="px-4 py-2 border border-gray-300 rounded-md text-sm bg-gray-200 hover:bg-gray-300"
                 >

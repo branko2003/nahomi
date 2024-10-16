@@ -5,6 +5,7 @@ import {
   getClientesRequest,
   getClienteRequest,
   updateClienteRequest,
+  searchClienteRequest,
 } from "../api/cliente";
 import Cookies from "js-cookie"
 
@@ -68,6 +69,14 @@ export function ClienteProvider({ children }) {
     }
   };
 
+  const searchCliente = async (id) => {
+    try {
+      await searchClienteRequest(id, configInicial);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <ClienteContext.Provider
       value={{
@@ -77,6 +86,7 @@ export function ClienteProvider({ children }) {
         createCliente,
         getCliente,
         updateCliente,
+        searchCliente,
       }}
     >
       {children}

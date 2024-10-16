@@ -15,10 +15,23 @@ export function LoginPage() {
   } = useForm({
     resolver: zodResolver(loginSchema),
   });
-  const { signin, errors: loginErrors, isAuthenticated, user } = useAuth();
+  const { signin, signinCamunda, errors: loginErrors, isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
 
-  const onSubmit = (data) => signin(data);
+  const onSubmit = async (data) => {
+    try {
+      // Llamar a signin para la autenticación
+      await signin(data);
+  
+      // Si signin es exitoso, iniciar el proceso en Camunda
+      await signinCamunda(data);
+  
+      console.log("Autenticación y proceso de Camunda completados.");
+    } catch (error) {
+      console.error("Error durante el inicio de sesión o el proceso de Camunda:", error);
+    }
+  };
+  
 
   useEffect(() => {
     if (isAuthenticated) {

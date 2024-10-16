@@ -50,3 +50,12 @@ export const getClientes = async (req, res) => {
     }
   };
   
+  export const searchCliente = async (req, res) => {
+    try {
+      const { id } = req.body;
+      const cliente = await User.findById(id);
+      return res.json(cliente);
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  };

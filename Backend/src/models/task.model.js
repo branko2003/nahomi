@@ -29,6 +29,10 @@ const taskSchema = new mongoose.Schema(
         enum: ['Pendiente', 'Aceptada', 'Rechazada'],
         default: 'Pendiente'
       },
+      garantia: {
+        type: Boolean,
+        required: true,
+      },
     },
     {
       timestamps: true,

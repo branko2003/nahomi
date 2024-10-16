@@ -5,7 +5,8 @@ import {
   getTasksRequest,
   getTaskRequest,
   updateTaskRequest,
-  updateTaskStatusRequest
+  updateTaskStatusRequest,
+  getTasksPorClienteRequest
 } from "../api/tasks";
 
 import axios from 'axios';
@@ -79,6 +80,16 @@ export function TaskProvider({ children }) {
     }
   };
 
+  const getTasksPorCliente = async () => {
+    try {
+      const res = await getTasksPorClienteRequest();
+      setTasks(res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.error("Error al obtener tareas por cliente:", error.message);
+    }
+  };
+
   return (
     <TaskContext.Provider
       value={{
@@ -89,6 +100,7 @@ export function TaskProvider({ children }) {
         getTask,
         updateTask,
         updateTaskStatus,
+        getTasksPorCliente,
       }}
     >
       {children}
