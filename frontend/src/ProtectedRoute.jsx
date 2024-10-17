@@ -1,0 +1,12 @@
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "./context/AuthContext";
+
+export const ProtectedRoute = () => {
+  const { isAuthenticated, loading } = useAuth();
+  
+  if (loading) return <h1>Cargando...</h1>;
+  if (!isAuthenticated && !loading) return <Navigate to="/login" replace />;
+  return <Outlet />;
+};
+//Selecciona datos que si existen que continuo y si no direccione
+//
